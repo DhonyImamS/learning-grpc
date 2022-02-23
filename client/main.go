@@ -11,7 +11,7 @@ import (
   )
 
 func serviceUser() model.UsersClient {
-    port := config.SERVICE_USER_PORT
+	port := config.SERVICE_USER_PORT
     conn, err := grpc.Dial(port, grpc.WithInsecure())
     if err != nil {
         log.Fatal("could not connect to", port, err)
@@ -42,7 +42,7 @@ func serviceGarage() model.GaragesClient {
   
 	garage1 := model.Garage{
 		  Id:   "q001",
-		  Name: "Quel'thalas",
+		  Name: "Test Bersama Mba Ayu",
 		  Coordinate: &model.GarageCoordinate{
 			  Latitude:  45.123123123,
 			  Longitude: 54.1231313123,
@@ -50,7 +50,7 @@ func serviceGarage() model.GaragesClient {
 	  }
 
 	garageUserId := model.GarageUserId{
-		UserId: "u00g1",
+		UserId: "u00g5",
 	}
 
 	garageAndUserId := model.GarageAndUserId{
