@@ -36,7 +36,7 @@ func (GaragesServer) Add(ctx context.Context, param *model.GarageAndUserId) (*em
 	return new(empty.Empty), nil
 }
 
- func (GaragesServer) List(ctx context.Context, param *model.GarageUserId) (*model.GarageList, error) {
+func (GaragesServer) List(ctx context.Context, param *model.GarageUserId) (*model.GarageList, error) {
 	userId := param.UserId
 
 	fetchData, ok := localStorage.List[userId]
@@ -48,7 +48,7 @@ func (GaragesServer) Add(ctx context.Context, param *model.GarageAndUserId) (*em
 	return fetchData, nil
 }
 
- func main() {
+func main() {
     srv := grpc.NewServer()
     var garageSrv GaragesServer
     model.RegisterGaragesServer(srv, garageSrv)

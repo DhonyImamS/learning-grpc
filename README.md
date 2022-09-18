@@ -24,14 +24,31 @@ For your convenient please put the file based on the folder structure.
 │   ├── go.sum
 ```
 
+## Installation all dependency for this project from go.mod file
+```
+run => go mod download, from root project
+```
 
 ## How to Run Service Dummy on your localhost
 ```
-run service garage or service user, via terminal using => go run main.go
+run service garage or service user, via terminal with these step:
+1. navigate into folder services/services-garage or services/services-user
+2. run => go run main.go
+
+OR
+
+run directly from root project using this command ( sample for run service garage ):
+=> go run services/service-garage/main.go
 ```
 
 ## How to hit to localhost gRPC servers programmatically in GO
 ```
 run main.go file under folder client using => go run main.go
+```
+
+## How to run integration test GRPC in GO
+```
+1. run your service garage first
+2. from main root project , run => go test ./integration_test/rpctest/... 
 ```
 
