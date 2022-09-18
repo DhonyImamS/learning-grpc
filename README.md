@@ -1,5 +1,5 @@
 # learn_grpc
-This repository is my learning process to interact with simple gRPC in go Language
+This repository is my learning process to interact with simple gRPC in go Language, using Go 1.16
 
 ## Folder Structure
 For your convenient please put the file based on the folder structure.
