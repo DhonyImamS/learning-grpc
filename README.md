@@ -1,5 +1,6 @@
 # learn_grpc
-This repository is my learning process to interact with simple gRPC in go Language, using Go 1.16
+This repository is my learning process to interact with simple gRPC in GO Language, using Go 1.16
+Owner try to learn test this grpc service using testify using TDD style and Godog using BDD style
 
 # resources
 This repository using many source comes from 
@@ -30,6 +31,18 @@ For your convenient please put the file based on the folder structure.
 │   │   │   ├── main.go
 │   │   ├── service-user
 │   │   │   ├── main.go
+│   ├── test_integration
+│   │   ├── rpc
+│   │   │   ├── garage.go
+│   │   ├── rpctest
+│   │   │   ├── garage_test.go
+│   │   ├── rpctestbdd
+│   │   │   ├── assertions
+│   │   │   |   ├── custom_assertions.go
+│   │   │   ├── features
+│   │   │   |   ├── garage.features
+│   │   │   ├── garage_step_def_test.go
+│   │   │   ├── godogs.go
 │   ├── go.mod
 │   ├── go.sum
 ```
