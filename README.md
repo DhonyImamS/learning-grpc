@@ -49,6 +49,6 @@ run main.go file under folder client using => go run main.go
 ## How to run integration test GRPC in GO
 ```
 1. run your service garage first
-2. from main root project , run => go test ./integration_test/rpctest/... 
+2. from main root project , run => go test ./test_integration_/rpctest/... 
 ```
 

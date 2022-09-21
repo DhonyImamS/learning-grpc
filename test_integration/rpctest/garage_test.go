@@ -3,7 +3,7 @@ package rpctest
 import (
   "testing"
 	"learn_grpc/common/model"
-	"learn_grpc/integration_test/rpc"
+	"learn_grpc/test_integration/rpc"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
