@@ -1,6 +1,16 @@
 # learn_grpc
 This repository is my learning process to interact with simple gRPC in go Language, using Go 1.16
 
+# resources
+This repository using many source comes from 
+```
+1. https://dasarpemrogramangolang.novalagung.com/C-golang-protobuf-implementation.html
+2. https://go-tour-id2.appspot.com/basics/1 ( read this minimum before concurrency )
+3. https://github.com/stretchr/testify
+4. https://github.com/cucumber/godog
+
+```
+
 ## Folder Structure
 For your convenient please put the file based on the folder structure.
 
@@ -46,9 +56,15 @@ run directly from root project using this command ( sample for run service garag
 run main.go file under folder client using => go run main.go
 ```
 
-## How to run integration test GRPC in GO
+## How to run integration test GRPC in GO TDD Style
 ```
 1. run your service garage first
 2. from main root project , run => go test ./test_integration_/rpctest/... 
+```
+
+## How to run integration test GRPC in GO using GODOG for BDD Style
+```
+1. run your service garage first
+2. from main root project , run => go test -v test_integration/rpctestbdd/garage_step_def_test.go
 ```
 
