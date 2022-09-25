@@ -13,10 +13,29 @@ import (
 )
 
 // godogsCtxKey is the key used to store the available godogs in the context.Context.
-type godogsCtxKey struct{}
+type godogsCtxKey struct {}
+
+type responseAndData struct {
+	response *emptypb.Empty
+	data garageTestData
+}
+
+type garageTestData struct {
+	GarageData model.Garage
+	UserID string
+}
+
+func SetRegisterPayload(data garageTestData) model.GarageAndUserId {
+	return model.GarageAndUserId{
+		UserId: data.UserID,
+		Garage: &data.GarageData,
+	}
+}
 
 func setDataGarage(ctx context.Context) (context.Context, error) {
-	garageNew := model.Garage{
+	dataTest := garageTestData{}
+
+	dataTest.GarageData = model.Garage{
 		Id:   "q001",
 		Name: "Test Bersama Mba Ayu",
 		Coordinate: &model.GarageCoordinate{
@@ -24,19 +43,22 @@ func setDataGarage(ctx context.Context) (context.Context, error) {
 			Longitude: 54.1231313123,
 		},
 	}
-	
-	payloadRegisterGarage := model.GarageAndUserId{
-		UserId: "u00g1",
-		Garage: &garageNew,
-	}
-	return context.WithValue(ctx, godogsCtxKey{}, payloadRegisterGarage), nil
+
+	dataTest.UserID = "u00g1"
+
+	return context.WithValue(ctx, godogsCtxKey{}, dataTest), nil
 }
 
 func invokeRPCGarageRegister(ctx context.Context) (context.Context, error) {
-	payloadRegisterGarage, ok := ctx.Value(godogsCtxKey{}).(model.GarageAndUserId)
+	dataTest, ok := ctx.Value(godogsCtxKey{}).(garageTestData)
 
 	if !ok {
 		return ctx, errors.New("there is no data new garage to be registered")
+	}
+
+	payloadRegisterGarage := model.GarageAndUserId{
+		UserId: dataTest.UserID,
+		Garage: &dataTest.GarageData,
 	}
 
 	respSendRegisterData, err := rpc.SendRegisterGarage(&payloadRegisterGarage)
@@ -44,26 +66,18 @@ func invokeRPCGarageRegister(ctx context.Context) (context.Context, error) {
 	if err != nil {
 		return ctx, errors.New("failed to invoke RPC Register Garage")
 	}
-
-	return context.WithValue(ctx, godogsCtxKey{}, respSendRegisterData), nil
+	
+	assertContext := responseAndData{respSendRegisterData, dataTest}
+	return context.WithValue(ctx, godogsCtxKey{}, assertContext), nil
 }
 
 func assertRegisterDataExistInListGarage(ctx context.Context) error {
-	respSendRegisterData,_ := ctx.Value(godogsCtxKey{}).(*emptypb.Empty)
-	customMatcher.GodogExpectedAndActual(assert.Equal, "", respSendRegisterData.String())
+	assertContext, _ := ctx.Value(godogsCtxKey{}).(responseAndData)
+	customMatcher.GodogExpectedAndActual(assert.Equal, "", assertContext.response.String())
 
 	// assertion on fetchList
-	garageNew := model.Garage{
-		Id:   "q001",
-		Name: "Test Bersama Mba Ayu",
-		Coordinate: &model.GarageCoordinate{
-		Latitude:  45.123123123,
-			Longitude: 54.1231313123,
-		},
-	}
-
-    payloadFetch := model.GarageUserId{
-		UserId: "u00g1",
+	payloadFetch := model.GarageUserId{
+		UserId: assertContext.data.UserID,
 	}
 	
 	// invoke list garage through grpc
@@ -71,7 +85,7 @@ func assertRegisterDataExistInListGarage(ctx context.Context) error {
 	customMatcher.GodogExpectedAndActual(assert.Equal, nil, err)
 
 	for index := range respFetch.List {
-		customMatcher.GodogExpectedAndActual(assert.Equal, garageNew.String(), respFetch.List[index].String())
+		customMatcher.GodogExpectedAndActual(assert.Equal, assertContext.data.GarageData.String(), respFetch.List[index].String())
 	}
     
 	return nil
